@@ -1,0 +1,17 @@
+{
+  "name": "BlogApi",
+  "version": "0.0.0",
+  "description": "Exposed blog api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "~4.12.0",
+    "mysql": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "author": "George Foster"
+}
