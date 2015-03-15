@@ -12,14 +12,18 @@ var router = express.Router();
 
 router.get("/api/blogs", function (req, res) {
     pool.getConnection(function (err, conn) {
-        if (!err) {
-            conn.query("select * from blog_entry", function (err, result) {
-                console.log("Query error: " + err);
-                if (!err) {
-                    res.json({"blog_entries": result});
-                }
-            });
+        if (err) {
+            res.json({"blog_entries": null});
+            return;
         }
+
+        conn.query("select * from blog_entry", function (err, result) {
+            if (err) {
+                res.json({"blog_entries": null});
+            } else {
+                res.json({"blog_entries": result});
+            }
+        });
     });
 });
 
@@ -33,7 +37,6 @@ router.get("/api/blog/:blog_id", function (req, res) {
         var blog_id = req.params.blog_id;
         if (blog_id > 0) {
             conn.query("select * from blog_entry where id = ?", [blog_id], function (err, result) {
-                console.log("Query error: " + err);
                 if (!err) {
                     res.json({"blog_entry": result});
                 }
@@ -54,7 +57,6 @@ router.get("/api/blog/:blog_id/comments", function (req, res) {
         var blog_id = req.params.blog_id;
         if (blog_id > 0) {
             conn.query("select * from comment where blog_id = ?", [blog_id], function (err, result) {
-                console.log("Query error: " + err);
                 if (!err) {
                     res.json({"comments": result});
                 }
